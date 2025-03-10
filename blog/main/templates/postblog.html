@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<title>BLOG|Post Your Blog</title>
+{% endblock %}
+{% block content %}
+<div class="container mx-auto p-2 " style="width: 50%; margin: 3% 0 2%;">
+    <h2 class="text-center">ADD YOUR BLOG</h2>
+    <form method="post"  action="{% url 'addblog' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Blog Title</label>
+            <input class="form-control" name="title" type="text" placeholder="Title" required>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Blog Image</label>
+            <input class="form-control" name="image" type="file" id="formFile" required>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Select category</label>
+            <select class="form-control" name="category" id="exampleFormControlSelect1">
+                {% for cat in category %}
+                <option value="{{cat.slug}}">{{cat.name}}</option>
+                {% endfor %}
+             </select>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Blog Content </label>
+            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" style="height: 500px;width: 100%;resize: vertical;" rows="3" placeholder="Blog Content" required></textarea>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Select Status</label>
+            <select class="form-control" name="status" id="exampleFormControlSelect1">
+                <option value="0">DRAFT</option>
+                <option value="1">PUBLISH</option>
+             </select>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-success" style="width: 30%;">POST</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

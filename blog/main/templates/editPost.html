@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<title>BLOG|Edit Your Blog</title>
+{% endblock %}
+{% block content %}
+<div class="container mx-auto p-2 " style="width: 50%; margin: 3% 0 2%;">
+    <h2 class="text-center">EDIT YOUR BLOG</h2>
+    <form method="post"  action="{% url 'editpost' post.blog_slug %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Blog Title</label>
+            <input class="form-control" name="title" type="text" value="{{post.title}}" required>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Blog Image</label>
+            <input class="form-control" name="image" type="file" id="formFile" >
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Category</label>
+            <input class="form-control" name="category" type="text" value="{{post.category}}" id="formFile" disabled>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Blog Content </label>
+            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3" placeholder="Blog Content" required>{{post.content}}</textarea>
+        </div>
+        <div class="form-group" style="margin-top: 5%;">
+            <label for="formFile" class="form-label">Select Status</label>
+            <select class="form-control" name="status" id="exampleFormControlSelect1">
+                <option value="0">DRAFT</option>
+                <option value="1">PUBLISH</option>
+             </select>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-info" style="width: 30%;">APPLY CHANGES</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

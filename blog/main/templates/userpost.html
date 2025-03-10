@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<title>BLOG|Category</title>
+<title>BLOG|Your Post</title>
 {% endblock %}
 {% block header %}
     <!-- Page Header -->
     <header class="page-header page-header-mini">
-        <h1 class="title">{{catName}}</h1>
+        <h1 class="title">Your Blogs</h1>
         <ol class="breadcrumb pb-0">
             <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
             <!-- <li class="breadcrumb-item active" aria-current="page">{{post.title}}</li> -->
@@ -19,7 +19,7 @@
     <div class="page-container">
         <div class="page-content">
             <div class="row">    
-                {% for post in categoryPost %}                   
+                {% for post in posts %}                   
                 <div class="col-lg-6">
                     <div class="card text-center mb-5">
                         <div class="card-header p-0">                                   
@@ -30,40 +30,29 @@
                         </div>
                         <div class="card-body px-0">
                             <h5 class="card-title mb-2">{{post.title}}</h5>    
-                            <small class="small text-muted">{{post.updated_at}} 
+                            <small class="small text-muted">{{post.uploaded_at}} 
                                 <span class="px-2">-</span>
                                 <a href="#" class="text-muted">{{post.comment_counts}} Comments</a>
                             </small>
                             <p class="my-2">{{post.content|slice:":150"}}...</p>
+                            {% if post.status == '1' %}
+                            <p class="text-success">PUBLISHED</p>
+                            {% else %}
+                            <p class="text-warning">DRAFT</p>
+                            {% endif %}
                         </div>
                         
                         <div class="card-footer p-0 text-center">
-                            <a href="{% url 'blogdetails' post.blog_slug %}" class="btn btn-outline-dark btn-sm">READ MORE</a>
+                            <a href="{% url 'umanagepost' post.blog_slug %}" class="btn btn-outline-dark btn-sm">VIEW POST</a>
                         </div>                  
                     </div>
                 </div>
+                {% empty %}
+                <h1 class="text-center">CREATE YOUR FIRST BLOG - <span><a href="{% url 'addblog' %}" class="text-success">ADD BLOG</a></span></h1>
                 {% endfor %}
             </div>
             <hr>
-            <nav aria-label="Page navigation" class="d-flex justify-content-center">
-                <ul class="pagination">
-                {% if pageobj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ pageobj.previous_page_number }}"><i class="ti-angle-double-left"></i></a>
-                </li>
-                {% endif %}
-                {% for num in pageobj.paginator.page_range %}
-                <li class="page-item {% if pageobj.number == num %}active{% endif %}">
-                    <a class="page-link" href="?page={{num}}">{{num}}</a>
-                </li>
-                {% endfor %}
-                {% if pageobj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ pageobj.next_page_number }}"><i class="ti-angle-double-right"></i></a>
-                </li>
-                {% endif %}
-                </ul>
-             </nav>
+            <!-- <button class="btn btn-primary btn-block my-4">Load More Posts</button> -->
         </div>
     </div>
 </div>

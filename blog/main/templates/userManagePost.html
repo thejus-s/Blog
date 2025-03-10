@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<title>BLOG|Manage Blog</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=delete,edit" />
+{% endblock %}
+{% block header %}
+<!-- Page Header -->
+<header class="page-header page-header-mini">
+    <h1 class="title">{{post.title}}</h1>
+    <ol class="breadcrumb pb-0">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{post.title}}</li>
+    </ol>
+</header>
+<!-- End Of Page Header -->
+{% endblock %}
+{% block content %}
+<section class="container">
+    <div class="page-container">
+        <div class="page-content">
+            <div class="card">
+                <div class="card-header pt-0">
+                    <h3 class="card-title mb-4">{{post.title}}</h3>
+                    <div class="blog-media mb-4">
+                        <img src="{{post.image.url}}" alt="" class="w-100">
+                        <!-- <a href="#" class="badge badge-primary">#Salupt</a>  -->
+                    </div>
+                    <small class="small text-muted">
+                        <a href="#" class="text-muted">BY {{post.author}}</a>
+                        <span class="px-2">·</span>
+                        <span>{{post.updated}}</span>
+                        <span class="px-2">·</span>
+                        <a href="#" class="text-muted">{{comments.count}}  Comments</a>
+                    </small>
+                </div>
+                <div class="card-body border-top">
+                    <p class="my-3">{{ post.content }}</p>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{% url 'editpost' post.blog_slug %}" class="btn btn-warning btn-sm mr-2"style="border-radius: 5px;">
+                            <span class="material-symbols-outlined">edit</span> 
+                        </a>
+                        <form action="{% url 'deletepost' post.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" style="border-radius: 5px;">
+                                <span class="material-symbols-outlined">delete</span> 
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- comments -->
+                <div class="card-footer">
+                    <h6 class="mt-5 mb-3 text-center">
+                        <a href="#" class="text-dark">Comments {{comments.count}}</a>
+                    </h6>
+                    <hr>
+                    {% for comment in comments %}
+                    <div class="media mt-4 d-flex align-items-center">
+                        <img src="{% static 'imgs/avatar-3.jpg' %}" class="mr-3 thumb-sm rounded-circle"
+                            alt="{{comment.name}}">
+                        <div class="media-body">
+                            <h6 class="mt-0 d-flex justify-content-between align-items-center">
+                                {{comment.name}}
+                                <form action="{% url 'deletecomment' comment.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" style="border-radius: 5px;">
+                                        <span class="material-symbols-outlined">delete</span> 
+                                    </button>
+                                </form>
+                            </h6>
+                            <p>{{comment.comment}}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h3 class="text-center">NO COMMENTS YET...</h3>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

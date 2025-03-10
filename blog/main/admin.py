@@ -5,3 +5,4 @@ from .models import*
 admin.site.register(user)
 admin.site.register(category)
 admin.site.register(blog)
+admin.site.register(comments)
